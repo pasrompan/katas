@@ -18,6 +18,27 @@ function isPrime(num) {
     return true;
 }
 
-module.exports = isPrime;
+function toCamelCase(word){
+    const myArray = word.split(/_|-/) 
+    let concatenatedText = "";
+    if (myArray.length < 1)
+    {
+        return "";
+    }
+    concatenatedText = myArray[0];
+    for (i=1; i <myArray.length; i++)
+    {
+        const str = myArray[i]
+        const str2 = str.charAt(0).toUpperCase() + str.slice(1);
+        concatenatedText += str2;
+    }
+    return concatenatedText;
+}
+
+module.exports =
+{
+    isPrime,
+    toCamelCase
+} 
 //let x = isPrime(5); 
 //console.log(x)
