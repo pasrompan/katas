@@ -44,6 +44,25 @@ public class Kata
         return output;
     }
 
+    internal static int CountBits(int v)
+    {
+        int sumValue = 0;
+        if (v < 0)
+        {
+          return 0;
+        }
+
+        int a = v;
+        while (a>0){
+          int b = 0b_0001;
+          int c = a & b;
+          sumValue = sumValue + (int)c;
+          a = a >> 1;
+        }
+
+        return sumValue;        
+    }
+
     internal static bool IsPrime(int n)
     {
         if (n < 2)
@@ -71,3 +90,5 @@ public class Kata
         return true;
     }
 }
+
+//https://www.codewars.com/kata/526571aae218b8ee490006f4/train/csharp
