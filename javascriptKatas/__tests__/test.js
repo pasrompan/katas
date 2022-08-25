@@ -1,42 +1,50 @@
-const katas = require('../src/katas.cjs')
+const kata = require('../src/kata.cjs')
 
 test('1 is not a prime', () => {
-  expect(katas.isPrime(1)).toBe(false);
+  expect(kata.isPrime(1)).toBe(false);
 });
 
 test('1 is aprime', () => {
-    expect(katas.isPrime(2)).toBe(true);
+    expect(kata.isPrime(2)).toBe(true);
   });
 
   test('3 is a prime', () => {
-    expect(katas.isPrime(3)).toBe(true);
+    expect(kata.isPrime(3)).toBe(true);
   });
 
   test('9 is not a prime', () => {
-    expect(katas.isPrime(9)).toBe(false);
+    expect(kata.isPrime(9)).toBe(false);
   });
 
   test('13 is a prime', () => {
-    expect(katas.isPrime(13)).toBe(true);
+    expect(kata.isPrime(13)).toBe(true);
   });
 
   test('4 is not a prime', () => {
-    expect(katas.isPrime(4)).toBe(false);
+    expect(kata.isPrime(4)).toBe(false);
   });
 
 
   test("An empty string was provided but not returned", () => {
-    expect(katas.toCamelCase('')).toBe('');
+    expect(kata.toCamelCase('')).toBe('');
   });
 
   test("toCamelCase('the_stealth_warrior') did not return correct value", () => {
-    expect(katas.toCamelCase("the_stealth_warrior")).toBe("theStealthWarrior");
+    expect(kata.toCamelCase("the_stealth_warrior")).toBe("theStealthWarrior");
   });
 
   test("toCamelCase('the_stealth-warrior') did not return correct value", () => {
-    expect(katas.toCamelCase("the_stealth-warrior")).toBe("theStealthWarrior");
+    expect(kata.toCamelCase("the_stealth-warrior")).toBe("theStealthWarrior");
   });
 
   test("toCamelCase('the_stealth-warrior') did not return correct value", () => {
-    expect(katas.toCamelCase("_--")).toBe("");
+    expect(kata.toCamelCase("_--")).toBe("");
   });
+
+  test("Testing for fixed tests", () =>{
+    expect(kata.countBits(4)).toBe(1);
+  }) 
+
+  test("failing test", () => {
+    expect(kata.countBits(6015773801)).toBe(16)
+  })

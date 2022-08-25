@@ -35,10 +35,24 @@ function toCamelCase(word){
     return concatenatedText;
 }
 
+function countBits(num){
+    let numberBig = BigInt(num)
+    let sumValue = BigInt(0);
+    while(numberBig >0)
+    {
+        const one = BigInt(1)
+        let toAdd = numberBig & one;
+        sumValue += toAdd;
+        numberBig = numberBig >> one
+    }
+    return Number(sumValue);
+}
+
 module.exports =
 {
     isPrime,
-    toCamelCase
+    toCamelCase,
+    countBits
 } 
 //let x = isPrime(5); 
 //console.log(x)
