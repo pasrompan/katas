@@ -31,6 +31,7 @@ public class Tests
     Assert.AreEqual(3, Kata.CountBits(7));
     Assert.AreEqual(2, Kata.CountBits(9));
     Assert.AreEqual(2, Kata.CountBits(10));
+    Assert.AreEqual(16, Kata.CountBits(6015773801));
   }
 
   [TestFixture]
@@ -51,5 +52,18 @@ public class Tests
   
     [Test, TestCaseSource("sampleTestCases")]
     public bool SampleTest(int n) => Kata.IsPrime(n);
+
+
+     private static IEnumerable<TestCaseData> testCases
+    {
+      get
+      {
+        yield return new TestCaseData("camelCasing").Returns("camel Casing");
+        yield return new TestCaseData("camelCasingTest").Returns("camel Casing Test");
+      }
+    }
+  
+    [Test, TestCaseSource("testCases")]
+    public string Test(string str) => Kata.BreakCamelCase(str);
   }
 }

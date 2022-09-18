@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Text;
 
 public class Kata
 {
@@ -44,7 +46,7 @@ public class Kata
         return output;
     }
 
-    internal static int CountBits(int v)
+    internal static int CountBits(long v)
     {
         int sumValue = 0;
         if (v < 0)
@@ -52,42 +54,62 @@ public class Kata
           return 0;
         }
 
-        int a = v;
+        var a = v;
         while (a>0){
-          int b = 0b_0001;
-          int c = a & b;
-          sumValue = sumValue + (int)c;
-          a = a >> 1;
+          var b = 0b_0001;
+          var c = a & b;
+          if ((a & b) == 1)
+          {
+            sumValue++;
+          }
+          a = a >> 1;          
         }
 
         return sumValue;        
     }
 
-    internal static bool IsPrime(int n)
+
+    internal static bool IsPrime(int num)
     {
-        if (n < 2)
+      if (num <=1)
+        return false;
+
+      if (num == 2)
+        return true;
+      
+      var iterationStep = 1;
+      for (int i = 2; i*i <= num; i = i+iterationStep)
+      {
+        var modu = num % i;
+        if (modu == 0)
         {
           return false;
         }
-        if (n<=3)
+        if (i==3)
         {
-          return true;
+          iterationStep = 2;
         }
-        int half = (int) Math.Round(Math.Sqrt(n));
-        int iterateStep = 1;
-        for (var i=2; i<=half; i=i+iterateStep)
+      }
+
+      return true;
+    }
+
+    internal static string BreakCamelCase(string str)
+    {
+      var charArray = str.ToCharArray();
+      StringBuilder sb = new StringBuilder("", 50);
+      foreach (var c in charArray)
+      {
+        if (Char.IsUpper(c))
         {
-          var modResult = n%i;
-          if (modResult == 0 )
-          {
-            return false;
-          }
-          if (i==3)
-          {
-            iterateStep=2;
-          }
+          sb.Append($" ");
         }
-        return true;
+        sb.Append(c);
+
+      }
+      return sb.ToString();
+
+
     }
 }
 

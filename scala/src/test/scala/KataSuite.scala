@@ -17,4 +17,22 @@ class KataSuite extends munit.FunSuite {
     val expected = 2
     assertEquals(obtained, expected)
   }
+
+  test("primeChecks"){
+    val obtained = isPrime(2)
+    val expected = true
+    assertEquals(obtained, expected)
+  }
+
+  test("primeChecks") {
+    val obtained = isPrime(13)
+    val expected = true
+    assertEquals(obtained, expected)
+  }
+
+  test("primeChecks") {
+    val obtained = isPrime(9)
+    val expected = false
+    assertEquals(obtained, expected)
+  }
 }
