@@ -65,5 +65,35 @@ public class Tests
   
     [Test, TestCaseSource("testCases")]
     public string Test(string str) => Kata.BreakCamelCase(str);
+
+
+[TestFixture]
+public class NumberTest
+{
+  private Number num;
+  
+  [SetUp]
+  public void SetUp() 
+  {
+    num = new Number();
+  }
+
+  [TearDown]
+  public void TearDown()
+  {
+    num = null;
+  }
+
+  [Test]
+  public void Tests()
+  {
+    Assert.NotNull(num);
+    Assert.AreEqual(7, num.DigitalRoot(16));       
+    Assert.AreEqual(6, num.DigitalRoot(456)); 
+    Assert.AreEqual(6, num.DigitalRoot(132189));
+    Assert.AreEqual(9, num.DigitalRoot(9));
+    Assert.AreEqual(9, num.DigitalRoot(2000000000000000007));
+  }
+}
   }
 }
