@@ -6,22 +6,24 @@ import java.math.*
 // https://scalameta.org/munit/docs/getting-started.html
 class IsPrimeSuite extends munit.FunSuite {
 
-  test("primeChecks"){
-    val obtained = isPrime(2)
-    val expected = true
-    assertEquals(obtained, expected)
-  }
+  test("test cases for IsPrime"){
+    test("test cases for count bits") {
 
-  test("primeChecks") {
-    val obtained = isPrime(13)
-    val expected = true
-    assertEquals(obtained, expected)
-  }
+      val testCases = List(
+        (0, false),
+        (1, false),
+        (2, true),
+        (73, true),
+        (75, true),
+        (-1, false)
+      )
 
-  test("primeChecks") {
-    val obtained = isPrime(9)
-    val expected = false
-    assertEquals(obtained, expected)
+      testCases.foreach {
+        case (input, expected) =>
+          val obtained = isPrime(input)
+          assertEquals(obtained, expected)
+      }
+    }
   }
 
 }
