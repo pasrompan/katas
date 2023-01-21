@@ -15,7 +15,9 @@ class IsPrimeSuite extends munit.FunSuite {
         (2, true),
         (73, true),
         (75, true),
-        (-1, false)
+        (-1, false),
+        (100003, true),
+        (100004, false)
       )
 
       testCases.foreach {
