@@ -128,3 +128,25 @@ func TestHumanReadableTime(t *testing.T) {
 		})
 	}
 }
+
+func TestReverseWords(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{"All words have less than five letters", "This is a test", "This is a test"},
+		{"One word has five or more letters", "This is another test", "This is rehtona test"},
+		{"All words have five or more letters", "Hello world", "olleH dlrow"},
+		{"Empty string", "", ""},
+		{"should test that the solution returns the correct value for single word inputs", "Welcome", "emocleW"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ReverseWords(tt.input); got != tt.expected {
+				t.Errorf("ReverseWords() = %v, want %v", got, tt.expected)
+			}
+		})
+	}
+}
