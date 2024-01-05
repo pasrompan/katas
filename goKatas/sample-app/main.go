@@ -116,3 +116,48 @@ func reverse(input string) string {
 	}
 	return string(runes)
 }
+
+func MaximumSubarraySum(arr []int) int {
+	maxSum, currentSum := 0, 0
+	for _, num := range arr {
+		currentSum = max(0, currentSum+num)
+		maxSum = max(maxSum, currentSum)
+	}
+	return maxSum
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func Tribonacci(signature [3]float64, n int) []float64 {
+
+	if n == 0 {
+		return []float64{}
+	}
+
+	tribonacci := make([]float64, n)
+	copy(tribonacci, signature[:])
+
+	for i := 3; i < n; i++ {
+		tribonacci[i] = tribonacci[i-1] + tribonacci[i-2] + tribonacci[i-3]
+	}
+
+	return tribonacci[:n]
+}
+
+func findNb(m int) int {
+	total := 0
+	n := 0
+	for total < m {
+		n++
+		total += n * n * n
+	}
+	if total == m {
+		return n
+	}
+	return -1
+}
