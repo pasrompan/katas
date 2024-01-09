@@ -161,3 +161,37 @@ func findNb(m int) int {
 	}
 	return -1
 }
+
+func RGB(r, g, b int) string {
+	r = clamp(r, 0, 255)
+	g = clamp(g, 0, 255)
+	b = clamp(b, 0, 255)
+	return fmt.Sprintf("%02X%02X%02X", r, g, b)
+}
+
+func clamp(value, min, max int) int {
+	if value < min {
+		return min
+	}
+	if value > max {
+		return max
+	}
+	return value
+}
+
+func Beeramid(bonus int, price float64) int {
+	totalCans := int(float64(bonus) / price) // Total number of cans that can be bought with the bonus
+	level := 0
+	cansUsed := 0
+
+	for cansUsed <= totalCans {
+		level++
+		levelCans := level * level // Number of cans needed for the current level
+		if cansUsed+levelCans > totalCans {
+			return level - 1 // Return the last completed level
+		}
+		cansUsed += levelCans
+	}
+
+	return level
+}

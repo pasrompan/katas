@@ -1,6 +1,7 @@
 package kata
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -209,6 +210,57 @@ func TestFindNb(t *testing.T) {
 		result := findNb(tc.m)
 		if result != tc.expected {
 			t.Errorf("findNb(%d) = %d; expected %d", tc.m, result, tc.expected)
+		}
+	}
+}
+
+func TestRGB(t *testing.T) {
+	tests := []struct {
+		r        int
+		g        int
+		b        int
+		expected string
+	}{
+		{255, 255, 255, "FFFFFF"},
+		{0, 0, 0, "000000"},
+		{255, 0, 0, "FF0000"},
+		{0, 255, 0, "00FF00"},
+		{0, 0, 255, "0000FF"},
+		{123, 45, 67, "7B2D43"},
+		{256, 0, 0, "FF0000"},
+		{0, 256, 0, "00FF00"},
+		{0, 0, 256, "0000FF"},
+		{-1, 0, 0, "000000"},
+		{0, -1, 0, "000000"},
+		{0, 0, -1, "000000"},
+		{100, 200, 300, "64C8FF"},
+	}
+
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("RGB(%d, %d, %d)", tt.r, tt.g, tt.b), func(t *testing.T) {
+			result := RGB(tt.r, tt.g, tt.b)
+			if result != tt.expected {
+				t.Errorf("RGB(%d, %d, %d) = %s; expected %s", tt.r, tt.g, tt.b, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestBeeramid(t *testing.T) {
+	tests := []struct {
+		bonus    int
+		price    float64
+		expected int
+	}{
+		{9, 2.0, 1},
+		{21, 1.5, 3},
+		{-1, 4, 0},
+	}
+
+	for _, tt := range tests {
+		result := Beeramid(tt.bonus, tt.price)
+		if result != tt.expected {
+			t.Errorf("Beeramid(%d, %f) = %d; expected %d", tt.bonus, tt.price, result, tt.expected)
 		}
 	}
 }
