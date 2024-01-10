@@ -195,3 +195,22 @@ func Beeramid(bonus int, price float64) int {
 
 	return level
 }
+
+func ValidISBN10(isbn string) bool {
+	var isbnInts []int
+	for position, char := range isbn {
+		if char >= '0' && char <= '9' {
+			isbnInts = append(isbnInts, int(char-'0'))
+		} else if (char == 'X' || char == 'x') && (position == len(isbn)-1) {
+			isbnInts = append(isbnInts, 10)
+		} else {
+			fmt.Errorf("Invalid character %c in ISBN", char)
+			return false
+		}
+	}
+	sum := 0
+	for i := 0; i < len(isbnInts); i++ {
+		sum = sum + isbnInts[i]*(i+1)
+	}
+	return sum%11 == 0 && len(isbnInts) == 10
+}

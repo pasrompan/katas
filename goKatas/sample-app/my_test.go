@@ -264,3 +264,58 @@ func TestBeeramid(t *testing.T) {
 		}
 	}
 }
+
+func TestValidISBN10_ValidISBN(t *testing.T) {
+	isbn := "0471958697"
+	expected := true
+
+	result := ValidISBN10(isbn)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestValidISBN10_InvalidISBN(t *testing.T) {
+	isbn := "1112223339"
+	expected := true
+
+	result := ValidISBN10(isbn)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestValidISBN10_InvalidCharacter(t *testing.T) {
+	isbn := "X123456788"
+	expected := false
+
+	result := ValidISBN10(isbn)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestValidISBN10_InvalidLength(t *testing.T) {
+	isbn := "047195869"
+	expected := false
+
+	result := ValidISBN10(isbn)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestValidISBN10_ValidLowerCaseX(t *testing.T) {
+	isbn := "048665088x"
+	expected := true
+
+	result := ValidISBN10(isbn)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
