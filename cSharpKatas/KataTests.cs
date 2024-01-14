@@ -1,4 +1,5 @@
 using NUnit.Framework;
+
 using System;
 
 [TestFixture]
@@ -96,4 +97,18 @@ public class NumberTest
   }
 }
   }
+
+[Test]
+    public void StripCommentsTest()
+    {
+        var input = "apples, pears # and bananas\ngrapes\nbananas !apples";
+        var expected = "apples, pears\ngrapes\nbananas";
+        var symbols = new string[] { "#", "!" };
+        Assert.AreEqual(expected, StripCommentsSolution.StripComments(input, symbols));
+
+        input = "a #b\nc\nd $e f g";
+        expected = "a\nc\nd";
+        symbols = new string[] { "#", "$" };
+        Assert.AreEqual(expected, StripCommentsSolution.StripComments(input, symbols));
+    }
 }
