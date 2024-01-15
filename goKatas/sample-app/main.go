@@ -214,3 +214,44 @@ func ValidISBN10(isbn string) bool {
 	}
 	return sum%11 == 0 && len(isbnInts) == 10
 }
+
+func LCS(x, y string) string {
+	m := len(x)
+	n := len(y)
+
+	// Create a 2D slice to store the lengths of LCS
+	dp := make([][]int, m+1)
+	for i := 0; i <= m; i++ {
+		dp[i] = make([]int, n+1)
+	}
+
+	// Build the dp table
+	for i := 1; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if x[i-1] == y[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			} else {
+				dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+			}
+		}
+	}
+
+	// Reconstruct the LCS
+	lcsLength := dp[m][n]
+	lcs := make([]byte, lcsLength)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if x[i-1] == y[j-1] {
+			lcs[lcsLength-1] = x[i-1]
+			i--
+			j--
+			lcsLength--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	return string(lcs)
+}

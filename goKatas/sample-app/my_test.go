@@ -319,3 +319,31 @@ func TestValidISBN10_ValidLowerCaseX(t *testing.T) {
 		t.Errorf("Expected %v, but got %v", expected, result)
 	}
 }
+
+func TestLCS(t *testing.T) {
+	tests := []struct {
+		x        string
+		y        string
+		expected string
+	}{
+		{"", "", ""},
+		{"abc", "", ""},
+		{"", "def", ""},
+		{"abc", "def", ""},
+		{"abc", "abc", "abc"},
+		{"abc", "defg", ""},
+		{"abcdef", "def", "def"},
+		{"abcdef", "abcf", "abcf"},
+		{"abcdef", "acdf", "acdf"},
+		{"abcdef", "abcdef", "abcdef"},
+		{"abcdef", "aceg", "ace"},
+		{"abcdef", "acef", "acef"},
+	}
+
+	for _, tt := range tests {
+		result := LCS(tt.x, tt.y)
+		if result != tt.expected {
+			t.Errorf("LCS(%s, %s) = %s; expected %s", tt.x, tt.y, result, tt.expected)
+		}
+	}
+}
