@@ -255,3 +255,50 @@ func LCS(x, y string) string {
 
 	return string(lcs)
 }
+
+func Determinant(m [][]int) int {
+	if len(m) == 1 {
+		return m[0][0]
+	}
+	total := 0
+	s := 1
+
+	// Store indexes in a list for row referencing
+	index := make([]int, len(m))
+	for i := range index {
+		index[i] = i
+	}
+
+	// when at 2x2 matrices
+	if len(m) == 2 && len(m[0]) == 2 {
+		// the determinant of a 2x2 matrix.
+		return m[0][0]*m[1][1] - m[1][0]*m[0][1]
+	} else {
+		// define submatrix for focus column
+		mSub := make([][]int, len(m)-1)
+		for i := range mSub {
+			mSub[i] = make([]int, len(m)-1)
+		}
+
+		// for each focus column
+		for c := 0; c < len(m); c++ {
+			// populate submatrix with all rows excluding the first
+			for r := 1; r < len(m); r++ {
+				// for each new subcolumn excluding the focus
+				i := 0
+				for cSub := 0; cSub < len(m); cSub++ {
+					if cSub == c {
+						continue
+					}
+					mSub[r-1][i] = m[r][cSub]
+					i++
+				}
+			}
+			total += s * m[0][c] * Determinant(mSub)
+			// switch sign
+			s = -s
+		}
+	}
+
+	return total
+}
