@@ -349,6 +349,44 @@ func TestLCS(t *testing.T) {
 	}
 }
 
+func TestDeterminant(t *testing.T) {
+	tests := []struct {
+		name string
+		m    [][]int
+		want int
+	}{
+		{
+			name: "2x2 matrix",
+			m:    [][]int{{1}},
+			want: 1,
+		},
+		{
+			name: "2x2 matrix",
+			m:    [][]int{{1, 2}, {3, 4}},
+			want: -2,
+		},
+		{
+			name: "3x3 matrix",
+			m:    [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
+			want: 0,
+		},
+		{
+			name: "3x3 matrix",
+			m:    [][]int{{2, 5, 3}, {1, -2, -1}, {1, 3, 4}},
+			want: -20,
+		},
+		//Expect(Determinant([][]int{{2, 5, 3}, {1, -2, -1}, {1, 3, 4}})).To(Equal(-20)) Add more test cases as needed
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Determinant(tt.m); got != tt.want {
+				t.Errorf("Determinant() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestFormatDuration(t *testing.T) {
 	tests := []struct {
 		x        int64
