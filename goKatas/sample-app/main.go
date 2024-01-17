@@ -2,6 +2,7 @@ package kata
 
 import (
 	"fmt"
+	"math/big"
 	"strings"
 )
 
@@ -254,4 +255,109 @@ func LCS(x, y string) string {
 	}
 
 	return string(lcs)
+}
+
+func FormatDuration(seconds int64) string {
+	if seconds == 0 {
+		return "now"
+	}
+
+	years := seconds / 31536000
+	seconds %= 31536000
+	days := seconds / 86400
+	seconds %= 86400
+	hours := seconds / 3600
+	seconds %= 3600
+	minutes := seconds / 60
+	seconds %= 60
+
+	parts := []string{}
+	if years > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", years, pluralize("year", years)))
+	}
+	if days > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", days, pluralize("day", days)))
+	}
+	if hours > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", hours, pluralize("hour", hours)))
+	}
+	if minutes > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", minutes, pluralize("minute", minutes)))
+	}
+	if seconds > 0 {
+		parts = append(parts, fmt.Sprintf("%d %s", seconds, pluralize("second", seconds)))
+	}
+
+	return humanize(parts)
+}
+
+func pluralize(word string, count int64) string {
+	if count > 1 {
+		return word + "s"
+	}
+	return word
+}
+
+var fibMatrix = [2][2]*big.Int{
+	{big.NewInt(1), big.NewInt(1)},
+	{big.NewInt(1), big.NewInt(0)},
+}
+
+func multiply(a, b [2][2]*big.Int) [2][2]*big.Int {
+	x := new(big.Int).Mul(a[0][0], b[0][0])
+	y := new(big.Int).Mul(a[0][1], b[1][0])
+	x.Add(x, y)
+
+	y = new(big.Int).Mul(a[0][0], b[0][1])
+	z := new(big.Int).Mul(a[0][1], b[1][1])
+	y.Add(y, z)
+
+	z = new(big.Int).Mul(a[1][0], b[0][0])
+	w := new(big.Int).Mul(a[1][1], b[1][0])
+	z.Add(z, w)
+
+	w = new(big.Int).Mul(a[1][0], b[0][1])
+	u := new(big.Int).Mul(a[1][1], b[1][1])
+	w.Add(w, u)
+
+	return [2][2]*big.Int{
+		{x, y},
+		{z, w},
+	}
+}
+
+func power(mat [2][2]*big.Int, n int64) [2][2]*big.Int {
+	if n == 0 || n == 1 {
+		return mat
+	}
+
+	mat = power(mat, n/2)
+	mat = multiply(mat, mat)
+
+	if n%2 != 0 {
+		mat = multiply(mat, fibMatrix)
+	}
+
+	return mat
+}
+
+func fib(n int64) *big.Int {
+	if n == 0 {
+		return big.NewInt(0)
+	}
+
+	if n < 0 {
+		n = -n
+		if n%2 == 0 {
+			return new(big.Int).Neg(power(fibMatrix, n)[1][0])
+		}
+	}
+
+	return power(fibMatrix, n)[1][0]
+}
+func humanize(parts []string) string {
+	if len(parts) == 1 {
+		return parts[0]
+	}
+	return strings.Join(parts[:len(parts)-1], ", ") + " and " + parts[len(parts)-1]
 }

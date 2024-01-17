@@ -2,6 +2,7 @@ package kata
 
 import (
 	"fmt"
+	"math/big"
 	"reflect"
 	"testing"
 )
@@ -345,5 +346,58 @@ func TestLCS(t *testing.T) {
 		if result != tt.expected {
 			t.Errorf("LCS(%s, %s) = %s; expected %s", tt.x, tt.y, result, tt.expected)
 		}
+	}
+}
+
+func TestFormatDuration(t *testing.T) {
+	tests := []struct {
+		x        int64
+		expected string
+	}{
+		{0, "now"},
+		{30, "30 seconds"},
+		{150, "2 minutes and 30 seconds"},
+		{3720, "1 hour and 2 minutes"},
+		{90000, "1 day and 1 hour"},
+		{90001, "1 day, 1 hour and 1 second"},
+	}
+
+	for _, tt := range tests {
+		result := FormatDuration(tt.x)
+		if result != tt.expected {
+			t.Errorf("FormatDuration(%d) = %s; expected %s", tt.x, result, tt.expected)
+		}
+	}
+}
+func TestFib(t *testing.T) {
+	tests := []struct {
+		n        int64
+		expected *big.Int
+	}{
+		{0, big.NewInt(0)},
+		{1, big.NewInt(1)},
+		{2, big.NewInt(1)},
+		{3, big.NewInt(2)},
+		{4, big.NewInt(3)},
+		{5, big.NewInt(5)},
+		{6, big.NewInt(8)},
+		{7, big.NewInt(13)},
+		{8, big.NewInt(21)},
+		{9, big.NewInt(34)},
+		{10, big.NewInt(55)},
+		{11, big.NewInt(89)},
+		{12, big.NewInt(144)},
+		{13, big.NewInt(233)},
+		{14, big.NewInt(377)},
+		{15, big.NewInt(610)},
+	}
+
+	for _, tt := range tests {
+		t.Run("Fib("+string(rune(tt.n))+")", func(t *testing.T) {
+			result := fib(tt.n)
+			if !reflect.DeepEqual(result, tt.expected) {
+				t.Errorf("Fib(%d) = %v; expected %v", tt.n, result, tt.expected)
+			}
+		})
 	}
 }
