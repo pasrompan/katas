@@ -439,3 +439,40 @@ func TestFib(t *testing.T) {
 		})
 	}
 }
+
+func TestPermutationalPrimes(t *testing.T) {
+	tests := []struct {
+		name   string
+		nMax   int
+		kPerms int
+		want   [3]int
+	}{
+		{
+			name:   "Test Case 1",
+			nMax:   1000,
+			kPerms: 1,
+			want:   [3]int{34, 13, 797},
+		},
+		{
+			name:   "Test Case 2",
+			nMax:   1000,
+			kPerms: 2,
+			want:   [3]int{9, 113, 389},
+		},
+		{
+			name:   "Test Case 3",
+			nMax:   1000,
+			kPerms: 3,
+			want:   [3]int{3, 149, 379},
+		},
+		// add more test cases as needed
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := PermutationalPrimes(tt.nMax, tt.kPerms); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PermutationalPrimes() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

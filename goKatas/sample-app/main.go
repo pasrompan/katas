@@ -3,6 +3,8 @@ package kata
 import (
 	"fmt"
 	"math/big"
+	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -407,4 +409,129 @@ func humanize(parts []string) string {
 		return parts[0]
 	}
 	return strings.Join(parts[:len(parts)-1], ", ") + " and " + parts[len(parts)-1]
+}
+
+func PermutationalPrimes(nMax, kPerms int) [3]int {
+	primes := sieve(nMax)
+	primePerms := make(map[int][]int)
+	primeChecked := make(map[int]bool)
+
+	for _, prime := range primes {
+		if primeChecked[prime] {
+			continue
+		}
+		perms := primePermutations(prime, primes, kPerms)
+		for _, perm := range perms {
+			primeChecked[perm] = true
+		}
+		if len(perms) == kPerms {
+			primePerms[prime] = perms
+		}
+	}
+
+	if len(primePerms) == 0 {
+		return [3]int{0, 0, 0}
+	}
+
+	keys := make([]int, 0, len(primePerms))
+	for k := range primePerms {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+
+	return [3]int{len(keys), keys[0], keys[len(keys)-1]}
+}
+
+func sieve(n int) []int {
+	sieve := make([]bool, n+1)
+	for x := 1; x*x <= n; x++ {
+		for y := 1; y*y <= n; y++ {
+			z := 4*x*x + y*y
+			if z <= n && (z%12 == 1 || z%12 == 5) {
+				sieve[z] = !sieve[z]
+			}
+			z = 3*x*x + y*y
+			if z <= n && z%12 == 7 {
+				sieve[z] = !sieve[z]
+			}
+			if x > y {
+				z = 3*x*x - y*y
+				if z <= n && z%12 == 11 {
+					sieve[z] = !sieve[z]
+				}
+			}
+		}
+	}
+	for r := 5; r*r <= n; r++ {
+		if sieve[r] {
+			for i := r * r; i <= n; i += r * r {
+				sieve[i] = false
+			}
+		}
+	}
+	primes := []int{2, 3}
+	for x := 5; x <= n; x += 2 {
+		if sieve[x] {
+			primes = append(primes, x)
+		}
+	}
+	return primes
+}
+
+func primePermutations(n int, primes []int, kPerms int) []int {
+	perms := make([]int, 0)
+	str := strconv.Itoa(n)
+	for _, prime := range primes {
+		if prime != n && len(str) == len(strconv.Itoa(prime)) && isPermutation(str, strconv.Itoa(prime)) {
+			perms = append(perms, prime)
+		}
+		if len(perms) > kPerms {
+			return perms
+		}
+	}
+	return perms
+}
+
+func isPermutation(a, b string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	counts := [10]int{}
+	for _, r := range a {
+		counts[r-'0']++
+	}
+
+	for _, r := range b {
+		counts[r-'0']--
+		if counts[r-'0'] < 0 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func permute(data []rune, i int, length int, result *[]int) {
+	if i == length {
+		num, _ := strconv.Atoi(string(data))
+		*result = append(*result, num)
+	} else {
+		for j := i; j < length; j++ {
+			swap(data, i, j)
+			permute(data, i+1, length, result)
+			swap(data, i, j)
+		}
+	}
+}
+
+func swap(data []rune, x int, y int) {
+	data[x], data[y] = data[y], data[x]
+}
+
+func numberPermutations(n int) []int {
+	data := []rune(strconv.Itoa(n))
+	var result []int
+	permute(data, 0, len(data), &result)
+	return result
 }
