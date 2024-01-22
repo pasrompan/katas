@@ -512,26 +512,65 @@ func isPermutation(a, b string) bool {
 	return true
 }
 
-func permute(data []rune, i int, length int, result *[]int) {
-	if i == length {
-		num, _ := strconv.Atoi(string(data))
-		*result = append(*result, num)
-	} else {
-		for j := i; j < length; j++ {
-			swap(data, i, j)
-			permute(data, i+1, length, result)
-			swap(data, i, j)
+func ListPosition(word string) int {
+	position := 0 // Start from 0
+	charCount := make(map[rune]int)
+	for _, char := range word {
+		charCount[char]++
+	}
+
+	wordLength := len(word)
+	for i, char := range word {
+		smallerChars := 0
+		for ch, count := range charCount {
+			if ch < char {
+				smallerChars += count
+			}
+		}
+
+		// Factorial of remaining length
+		remainingLengthFactorial := factorial(wordLength - i - 1)
+
+		for ch, count := range charCount {
+			if ch != char {
+				remainingLengthFactorial /= factorial(count)
+			}
+		}
+
+		// Calculate position addition for this letter
+		position += remainingLengthFactorial * smallerChars
+
+		// Decrement the count of the current character
+		charCount[char]--
+		if charCount[char] == 0 {
+			delete(charCount, char)
 		}
 	}
+
+	position++ // Adjust to 1-based index
+	return position
 }
 
-func swap(data []rune, x int, y int) {
-	data[x], data[y] = data[y], data[x]
+func factorial(n int) int {
+	result := 1
+	for i := 2; i <= n; i++ {
+		result *= i
+	}
+	return result
 }
 
-func numberPermutations(n int) []int {
-	data := []rune(strconv.Itoa(n))
-	var result []int
-	permute(data, 0, len(data), &result)
+func UniquePermutationsCount(s string) int {
+	charCount := make(map[rune]int)
+	for _, char := range s {
+		charCount[char]++
+	}
+
+	totalChars := len(s)
+	result := factorial(totalChars)
+
+	for _, count := range charCount {
+		result /= factorial(count)
+	}
+
 	return result
 }

@@ -476,3 +476,48 @@ func TestPermutationalPrimes(t *testing.T) {
 		})
 	}
 }
+
+func TestListPosition(t *testing.T) {
+	tests := []struct {
+		word     string
+		expected int
+	}{
+		{"A", 1},
+		{"ABAB", 2},
+		/*{"AAAB", "1"},
+		{"BAAA", "4"},
+		{"QUESTION", "24572"},
+		{"BOOKKEEPER", "10743"},*/
+	}
+
+	for _, test := range tests {
+		result := ListPosition(test.word)
+		expected := test.expected
+
+		if result != expected {
+			t.Errorf("ListPosition(%q) = %v, want %v", test.word, result, expected)
+		}
+	}
+}
+
+func TestUniquePermutationsCount(t *testing.T) {
+	tests := []struct {
+		s        string
+		expected int
+	}{
+		{"abc", 6},
+		{"aab", 3},
+		{"aaa", 1},
+		{"abab", 6},
+		{"", 1},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprintf("Input: %s", test.s), func(t *testing.T) {
+			result := UniquePermutationsCount(test.s)
+			if result != test.expected {
+				t.Errorf("UniquePermutationsCount(%s) = %d, expected %d", test.s, result, test.expected)
+			}
+		})
+	}
+}
