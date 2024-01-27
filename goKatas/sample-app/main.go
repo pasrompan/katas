@@ -513,43 +513,55 @@ func isPermutation(a, b string) bool {
 	return true
 }
 
-func ListPosition(word string) int {
-	position := 0 // Start from 0
-	charCount := make(map[rune]int)
-	for _, char := range word {
-		charCount[char]++
+func ListPosition(word string) *big.Int {
+	// Count occurrences of each letter.
+	counts := make(map[rune]int64)
+	for _, letter := range word {
+		counts[letter]++
 	}
 
-	wordLength := len(word)
-	for i, char := range word {
-		smallerChars := 0
-		for ch, count := range charCount {
-			if ch < char {
-				smallerChars += count
+	rank := big.NewInt(1)
+	length := int64(len(word))
+
+	// Calculate the rank.
+	for i := int64(0); i < length; i++ {
+		smaller := big.NewInt(0)
+		currentLetter := rune(word[i])
+
+		// Calculate the number of words that would start with a letter smaller than the current one.
+		for letter, _ := range counts {
+			if letter < currentLetter {
+				temp := factorialBig(length - i - 1)
+				for k, v := range counts {
+					if k != letter {
+						temp.Div(temp, factorialBig(v))
+					} else {
+						temp.Div(temp, factorialBig(v-1))
+					}
+				}
+				smaller.Add(smaller, temp)
 			}
 		}
 
-		// Factorial of remaining length
-		remainingLengthFactorial := factorial(wordLength - i - 1)
+		// Add the number of words starting with smaller letters to the rank.
+		rank.Add(rank, smaller)
+		counts[currentLetter]--
 
-		for ch, count := range charCount {
-			if ch != char {
-				remainingLengthFactorial /= factorial(count)
-			}
-		}
-
-		// Calculate position addition for this letter
-		position += remainingLengthFactorial * smallerChars
-
-		// Decrement the count of the current character
-		charCount[char]--
-		if charCount[char] == 0 {
-			delete(charCount, char)
+		if counts[currentLetter] == 0 {
+			delete(counts, currentLetter)
 		}
 	}
 
-	position++ // Adjust to 1-based index
-	return position
+	return rank
+}
+
+// factorial computes the factorial of n.
+func factorialBig(n int64) *big.Int {
+	result := big.NewInt(1)
+	for i := int64(2); i <= n; i++ {
+		result.Mul(result, big.NewInt(i))
+	}
+	return result
 }
 
 func factorial(n int) int {

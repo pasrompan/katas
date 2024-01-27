@@ -480,22 +480,18 @@ func TestPermutationalPrimes(t *testing.T) {
 func TestListPosition(t *testing.T) {
 	tests := []struct {
 		word     string
-		expected int
+		expected *big.Int
 	}{
-		{"A", 1},
-		{"ABAB", 2},
-		/*{"AAAB", "1"},
-		{"BAAA", "4"},
-		{"QUESTION", "24572"},
-		{"BOOKKEEPER", "10743"},*/
+		{"ABAB", big.NewInt(2)},
+		{"AAAB", big.NewInt(1)},
+		{"BAAA", big.NewInt(4)},
+		{"QUESTION", big.NewInt(24572)},
+		{"BOOKKEEPER", big.NewInt(10743)},
 	}
 
 	for _, test := range tests {
-		result := ListPosition(test.word)
-		expected := test.expected
-
-		if result != expected {
-			t.Errorf("ListPosition(%q) = %v, want %v", test.word, result, expected)
+		if got := ListPosition(test.word); got.Cmp(test.expected) != 0 {
+			t.Errorf("ListPosition(%s) = %s, want %s", test.word, got.String(), test.expected.String())
 		}
 	}
 }
