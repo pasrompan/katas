@@ -683,3 +683,49 @@ func TestDigitalRoot(t *testing.T) {
 		})
 	}
 }
+
+func TestSpinWords(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"Hello world", "olleH dlrow"},
+		{"Welcome", "emocleW"},
+		{"This is a test", "This is a test"},
+		{"Spin words longer than five", "Spin sdrow regnol than five"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.input, func(t *testing.T) {
+			result := SpinWords(tt.input)
+			if result != tt.expected {
+				t.Errorf("SpinWords(%s) = %s; expected %s", tt.input, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestCountBits(t *testing.T) {
+	tests := []struct {
+		n        uint
+		expected int
+	}{
+		{0, 0},
+		{1, 1},
+		{2, 1},
+		{3, 2},
+		{4, 1},
+		{5, 2},
+		{10, 2},
+		{15, 4},
+		{16, 1},
+		{100, 3},
+	}
+
+	for _, tt := range tests {
+		result := CountBits(tt.n)
+		if result != tt.expected {
+			t.Errorf("CountBits(%d) = %d; expected %d", tt.n, result, tt.expected)
+		}
+	}
+}

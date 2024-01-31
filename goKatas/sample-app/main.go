@@ -610,3 +610,30 @@ func isPrime(n int) bool {
 func toJadenCase(str string) string {
 	return strings.Title(str)
 }
+
+func SpinWords(str string) string {
+	words := strings.Fields(str)
+	for i, word := range words {
+		if len(word) >= 5 {
+			words[i] = reverseString(word)
+		}
+	}
+	return strings.Join(words, " ")
+}
+
+func reverseString(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func CountBits(n uint) int {
+	count := 0
+	for n > 0 {
+		count += int(n & 1)
+		n >>= 1
+	}
+	return count
+}
