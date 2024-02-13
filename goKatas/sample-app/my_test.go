@@ -729,3 +729,61 @@ func TestCountBits(t *testing.T) {
 		}
 	}
 }
+
+func TestFindOdd(t *testing.T) {
+	tests := []struct {
+		name     string
+		arr      []int
+		expected int
+	}{
+		{
+			name:     "Test Case 1",
+			arr:      []int{1, 1, 2, 2, 3},
+			expected: 3,
+		},
+		{
+			name:     "Test Case 2",
+			arr:      []int{1, 1, 2, 2, 3, 3, 3},
+			expected: 3,
+		},
+		{
+			name:     "Test Case 3",
+			arr:      []int{1, 2, 2, 3, 3, 3},
+			expected: 1,
+		},
+		{
+			name:     "Test Case 4",
+			arr:      []int{1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4},
+			expected: 3,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := FindOdd(tt.arr)
+			if result != tt.expected {
+				t.Errorf("FindOdd() = %d; expected %d", result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestSolution(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected []string
+	}{
+		{"abcdef", []string{"ab", "cd", "ef"}},
+		{"abcde", []string{"ab", "cd", "e_"}},
+		{"a", []string{"a_"}},
+	}
+
+	for _, tt := range tests {
+		t.Run("Solution("+tt.input+")", func(t *testing.T) {
+			result := Solution(tt.input)
+			if !reflect.DeepEqual(result, tt.expected) {
+				t.Errorf("Solution(%s) = %v; expected %v", tt.input, result, tt.expected)
+			}
+		})
+	}
+}

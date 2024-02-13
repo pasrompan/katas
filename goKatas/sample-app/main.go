@@ -637,3 +637,28 @@ func CountBits(n uint) int {
 	}
 	return count
 }
+
+func FindOdd(arr []int) int {
+	count := make(map[int]int)
+	for _, num := range arr {
+		count[num]++
+	}
+	for num, freq := range count {
+		if freq%2 != 0 {
+			return num
+		}
+	}
+	return -1 // return -1 if no number found (should not happen as per problem statement)
+}
+
+func Solution(s string) []string {
+	var result []string
+	for i := 0; i < len(s); i += 2 {
+		if i+1 < len(s) {
+			result = append(result, s[i:i+2])
+		} else {
+			result = append(result, s[i:i+1]+"_")
+		}
+	}
+	return result
+}
