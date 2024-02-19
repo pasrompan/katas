@@ -662,3 +662,25 @@ func Solution(s string) []string {
 	}
 	return result
 }
+
+func IsValidWalk(walk []rune) bool {
+	var x, y int
+	x = 0
+	y = 0
+	if len(walk) != 10 {
+		return false
+	}
+	for _, direction := range walk {
+		switch direction {
+		case 'n':
+			y++
+		case 's':
+			y--
+		case 'e':
+			x++
+		case 'w':
+			x--
+		}
+	}
+	return x == 0 && y == 0
+}

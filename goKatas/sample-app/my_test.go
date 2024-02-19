@@ -787,3 +787,47 @@ func TestSolution(t *testing.T) {
 		})
 	}
 }
+
+func TestIsValidWalk_ValidWalk(t *testing.T) {
+	walk := []rune{'n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 's'}
+	expected := true
+
+	result := IsValidWalk(walk)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestIsValidWalk_InvalidWalk(t *testing.T) {
+	walk := []rune{'n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 'w'}
+	expected := false
+
+	result := IsValidWalk(walk)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestIsValidWalk_InvalidLength(t *testing.T) {
+	walk := []rune{'n', 's', 'n', 's', 'n', 's', 'n', 's'}
+	expected := false
+
+	result := IsValidWalk(walk)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
+
+func TestIsValidWalk_EmptyWalk(t *testing.T) {
+	walk := []rune{}
+	expected := false
+
+	result := IsValidWalk(walk)
+
+	if result != expected {
+		t.Errorf("Expected %v, but got %v", expected, result)
+	}
+}
