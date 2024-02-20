@@ -831,3 +831,41 @@ func TestIsValidWalk_EmptyWalk(t *testing.T) {
 		t.Errorf("Expected %v, but got %v", expected, result)
 	}
 }
+
+func TestCountSheeps(t *testing.T) {
+	tests := []struct {
+		name     string
+		numbers  []bool
+		expected int
+	}{
+		{
+			name:     "Empty list",
+			numbers:  []bool{},
+			expected: 0,
+		},
+		{
+			name:     "All false",
+			numbers:  []bool{false, false, false},
+			expected: 0,
+		},
+		{
+			name:     "All true",
+			numbers:  []bool{true, true, true},
+			expected: 3,
+		},
+		{
+			name:     "Mixed true and false",
+			numbers:  []bool{true, false, true, false, true},
+			expected: 3,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := CountSheeps(tt.numbers)
+			if result != tt.expected {
+				t.Errorf("CountSheeps(%v) = %d; expected %d", tt.numbers, result, tt.expected)
+			}
+		})
+	}
+}

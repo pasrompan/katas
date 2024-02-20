@@ -684,3 +684,13 @@ func IsValidWalk(walk []rune) bool {
 	}
 	return x == 0 && y == 0
 }
+
+func CountSheeps(numbers []bool) int {
+	sum := 0
+	for _, sheep := range numbers {
+		if sheep {
+			sum++
+		}
+	}
+	return sum
+}
